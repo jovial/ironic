@@ -36,6 +36,7 @@ from ironic.conductor import utils as manager_utils
 from ironic.conf import CONF
 from ironic.drivers import base
 from ironic.drivers.modules import boot_mode_utils
+from ironic.drivers.modules.network.common import tenant_port_to_vif_mapping
 from ironic.drivers.modules import deploy_utils
 from ironic.drivers.modules import image_cache
 from ironic.drivers import utils as driver_utils
@@ -601,7 +602,9 @@ class PXEBoot(base.BootInterface):
         if deploy_utils.is_iscsi_boot(task):
             dhcp_opts = pxe_utils.dhcp_options_for_instance(task)
             provider = dhcp_factory.DHCPFactory()
-            provider.update_dhcp(task, dhcp_opts)
+            ports = tenant_port_to_vif_mapping(task.ports)
+            portgroups = tenant_port_to_vif_mapping(task.portgroups)
+            provider.update_dhcp(task, dhcp_opts, {'ports': ports, 'portgroups': portgroups})
 
             # configure iPXE for iscsi boot
             pxe_config_path = pxe_utils.get_pxe_config_file_path(
@@ -630,7 +633,9 @@ class PXEBoot(base.BootInterface):
             # If it's going to PXE boot we need to update the DHCP server
             dhcp_opts = pxe_utils.dhcp_options_for_instance(task)
             provider = dhcp_factory.DHCPFactory()
-            provider.update_dhcp(task, dhcp_opts)
+            ports = tenant_port_to_vif_mapping(task.ports)
+            portgroups = tenant_port_to_vif_mapping(task.portgroups)
+            provider.update_dhcp(task, dhcp_opts, {'ports': ports, 'portgroups': portgroups})
 
             iwdi = task.node.driver_internal_info.get('is_whole_disk_image')
             try:

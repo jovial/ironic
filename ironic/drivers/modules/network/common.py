@@ -377,6 +377,15 @@ class VIFPortIDMixin(object):
                 or self._get_vif_id_by_port_like_obj(p_obj) or None)
 
 
+def tenant_port_to_vif_mapping(port_like_objects):
+    vifs = {}
+    for port_like_obj in port_like_objects:
+        vif_id = VIFPortIDMixin._get_vif_id_by_port_like_obj(port_like_obj)
+        if vif_id:
+            vifs[port_like_obj.uuid] = vif_id
+    return vifs
+
+
 class NeutronVIFPortIDMixin(VIFPortIDMixin):
     """VIF port ID mixin class for neutron network interfaces.
 

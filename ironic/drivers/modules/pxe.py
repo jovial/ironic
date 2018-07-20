@@ -448,6 +448,9 @@ class PXEBoot(base.BootInterface):
             missing.
         """
         node = task.node
+        import pydevd; pydevd.settrace(host="192.168.122.1",port=5678, stdoutToServer=False,stderrToServer=False)
+        import sys
+        sys.setrecursionlimit(1000000)
 
         if not driver_utils.get_node_mac_addresses(task):
             raise exception.MissingParameterValue(

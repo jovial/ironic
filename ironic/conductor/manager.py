@@ -1964,7 +1964,10 @@ class ConductorManager(base_manager.BaseConductorManager):
                   interface validation.
 
         """
-        LOG.debug('RPC validate_driver_interfaces called for node %s.',
+        #import pydevd; pydevd.settrace(host="192.168.122.1",port=5678, stdoutToServer=False,stderrToServer=False)
+        #import sys
+        #sys.setrecursionlimit(1000000)
+        LOG.debug('RPC validate_driver_interfa6es called for node %s.',
                   node_id)
         ret_dict = {}
         lock_purpose = 'driver interface validation'

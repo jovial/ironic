@@ -20,10 +20,16 @@
 import os
 
 os.environ['EVENTLET_NO_GREENDNS'] = 'yes'  # noqa E402
+os.environ['GEVENT_SUPPORT'] = 'True' # must be True for debugger 
+
 
 import eventlet
 
+#import pydevd; pydevd.settrace(host="192.168.122.1",port=5678, stdoutToServer=False,stderrToServer=False)
+#import sys
+#sys.setrecursionlimit(1000000)
 eventlet.monkey_patch(os=False)
+#eventlet.monkey_patch(os=False, thread=False)
 
 import oslo_i18n as i18n  # noqa for I202 due to 'import eventlet' above
 
